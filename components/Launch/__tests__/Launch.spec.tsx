@@ -13,7 +13,7 @@ describe('Launch', () => {
   it('should render name of the date as a human readable string', () => {
     render(<Launch launch={launchMock} />);
 
-    expect(screen.getByText('2006-03-24 22:30:00')).toBeInTheDocument();
+    expect(screen.getByText('24th March 2006 22:30:00')).toBeInTheDocument();
   });
 
   it('should render name of the first core serial', () => {
@@ -38,5 +38,25 @@ describe('Launch', () => {
 
     expect(screen.getByText('Failure')).toBeInTheDocument();
     expect(screen.queryByText('Success')).not.toBeInTheDocument();
+  });
+
+  it('should render the reason for failure if not successful', () => {
+    render(
+      <Launch
+        launch={{
+          ...launchMock,
+          success: false,
+          failures: [
+            {
+              altitude: null,
+              reason: 'merlin engine failure',
+              time: 33,
+            },
+          ],
+        }}
+      />
+    );
+
+    expect(screen.getByText('merlin engine failure')).toBeInTheDocument();
   });
 });

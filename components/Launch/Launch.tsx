@@ -49,6 +49,12 @@ export const Launch: React.FC<LaunchProps> = ({ launch }) => {
             </Typography>
           </span>
         ))}
+        {!launch.success && (
+          <Typography sx={{ marginTop: 2 }} variant="body2" color="error">
+            <strong>Reason for failure: </strong>
+            {launch.failures.map((failure) => failure.reason)}
+          </Typography>
+        )}
       </CardContent>
       <CardActions>
         {launch.success && <Chip label="Success" color="primary" />}
