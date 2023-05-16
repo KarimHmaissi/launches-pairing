@@ -133,5 +133,8 @@ export interface LaunchRequest {
   options: {
     populate: 'payloads'[];
     limit: number;
+    sort?: {
+      [key: string]: string;
+    };
   };
 }

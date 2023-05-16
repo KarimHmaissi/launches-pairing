@@ -1,20 +1,33 @@
-export function formatDate(utcDateString: string): string {
-  const date = new Date(utcDateString);
+function getOrdinal(n: number): string {
+  let s = ['th', 'st', 'nd', 'rd'],
+    v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
 
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1; // getMonth() is zero-based
-  const day = date.getDate();
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const seconds = date.getSeconds();
+export function formatDate(dateString: string): string {
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+  let date = new Date(dateString);
 
-  const paddedMonth = month < 10 ? '0' + month : month;
-  const paddedDay = day < 10 ? '0' + day : day;
-  const paddedHours = hours < 10 ? '0' + hours : hours;
-  const paddedMinutes = minutes < 10 ? '0' + minutes : minutes;
-  const paddedSeconds = seconds < 10 ? '0' + seconds : seconds;
+  let hours = date.getUTCHours().toString().padStart(2, '0');
+  let minutes = date.getUTCMinutes().toString().padStart(2, '0');
+  let seconds = date.getUTCSeconds().toString().padStart(2, '0');
 
-  const formattedDate = `${year}-${paddedMonth}-${paddedDay} ${paddedHours}:${paddedMinutes}:${paddedSeconds}`;
+  let day = getOrdinal(date.getUTCDate());
+  let month = months[date.getUTCMonth()];
+  let year = date.getUTCFullYear();
 
-  return formattedDate;
+  return `${day} ${month} ${year} ${hours}:${minutes}:${seconds}`;
 }
